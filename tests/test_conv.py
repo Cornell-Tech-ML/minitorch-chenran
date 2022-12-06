@@ -64,6 +64,7 @@ def test_conv2() -> None:
     t2 = minitorch.tensor([[1, 1], [1, 1]]).view(1, 1, 2, 2)
     t2.requires_grad_(True)
     out = minitorch.Conv2dFun.apply(t, t2)
+    # print(out)
     out.sum().backward()
 
     minitorch.grad_check(minitorch.Conv2dFun.apply, t, t2)
