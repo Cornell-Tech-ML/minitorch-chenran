@@ -83,8 +83,8 @@ class CNNSentimentKim(minitorch.Module):
         # max-over-time, no sentence length
         out = (
             minitorch.max(conv1, 2) + minitorch.max(conv2, 2) + minitorch.max(conv3, 2)
-        )
-        out = self.linear.forward(out).relu()
+        ).view(embeddings.shape[0], self.feature_map_size)
+        out = self.linear.forward(out)
         out = minitorch.dropout(out, rate=self.dropout, ignore=not self.training)
         return out.sigmoid().view(embeddings.shape[0])
         # raise NotImplementedError("Need to implement for Task 4.5")
