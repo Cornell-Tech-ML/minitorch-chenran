@@ -1,0 +1,10 @@
+missing pre-trained embedding for 55 unknown words
+Epoch 1, loss 31.39769403839999, train accuracy: 50.89%
+Validation accuracy: 52.00%
+Best Valid accuracy: 52.00%
+Epoch 2, loss 31.287872136209472, train accuracy: 50.22%
+Validation accuracy: 60.00%
+Best Valid accuracy: 60.00%
+Epoch 3, loss 30.971137671623595, train accuracy: 54.67%
+Validation accuracy: 59.00%
+Best Valid accuracy: 60.00%

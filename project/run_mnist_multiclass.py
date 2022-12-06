@@ -67,7 +67,7 @@ class Network(minitorch.Module):
         # For vis
         self.mid = None
         self.out = None
-        self.classes = 10
+        self.classes = C
 
         # TODO: Implement for Task 4.5.
         self.conv1 = Conv2d(1, 4, 3, 3)
