@@ -86,7 +86,7 @@ class Network(minitorch.Module):
         self.mid = self.conv1.forward(x).relu()
         self.out = self.conv2.forward(self.mid).relu()
         tmp = self.linear1.forward(minitorch.avgpool2d(self.out, (4, 4)).view(BATCH, 392))
-        tmp = minitorch.dropout(tmp, rate=0.25, ignore=self.training)
+        tmp = minitorch.dropout(tmp, rate=0.25, ignore=not self.training)
         tmp = self.linear2.forward(tmp)
         out = minitorch.logsoftmax(tmp, dim=1)
         return out
