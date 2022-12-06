@@ -4,7 +4,7 @@ from . import operators
 from .autodiff import Context
 from .fast_ops import FastOps
 from .tensor import Tensor
-from .tensor_functions import Function, rand, tensor
+from .tensor_functions import Function, rand
 
 
 def tile(input: Tensor, kernel: Tuple[int, int]) -> Tuple[Tensor, int, int]:
@@ -82,7 +82,7 @@ class Max(Function):
         d = int(dim[0])
         ctx.save_for_backward(input, d)
         return max_reduce(input, d)
-        raise NotImplementedError("Need to implement for Task 4.4")
+        # raise NotImplementedError("Need to implement for Task 4.4")
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
@@ -90,7 +90,7 @@ class Max(Function):
         # TODO: Implement for Task 4.4.
         (input, dim) = ctx.saved_values
         return argmax(input, dim) * grad_output, 0.0
-        raise NotImplementedError("Need to implement for Task 4.4")
+        # raise NotImplementedError("Need to implement for Task 4.4")
 
 
 def max(input: Tensor, dim: int) -> Tensor:
@@ -115,7 +115,7 @@ def softmax(input: Tensor, dim: int) -> Tensor:
     # TODO: Implement for Task 4.4.
     input_exp = input.exp()
     return input_exp / input_exp.sum(dim=dim)
-    raise NotImplementedError("Need to implement for Task 4.4")
+    # raise NotImplementedError("Need to implement for Task 4.4")
 
 
 def logsoftmax(input: Tensor, dim: int) -> Tensor:
@@ -135,8 +135,8 @@ def logsoftmax(input: Tensor, dim: int) -> Tensor:
     """
     # TODO: Implement for Task 4.4.
     maximium = max(input, dim=dim)
-    return input - maximium - (input - maximium).exp().sum(dim=dim).log() 
-    raise NotImplementedError("Need to implement for Task 4.4")
+    return input - maximium - (input - maximium).exp().sum(dim=dim).log()
+    # raise NotImplementedError("Need to implement for Task 4.4")
 
 
 def maxpool2d(input: Tensor, kernel: Tuple[int, int]) -> Tensor:
@@ -155,7 +155,7 @@ def maxpool2d(input: Tensor, kernel: Tuple[int, int]) -> Tensor:
     input, new_height, new_width = tile(input, kernel)
     out = max(input, dim=4).view(batch, channel, new_height, new_width)
     return out
-    raise NotImplementedError("Need to implement for Task 4.4")
+    # raise NotImplementedError("Need to implement for Task 4.4")
 
 
 def dropout(input: Tensor, rate: float, ignore: bool = False) -> Tensor:
@@ -176,4 +176,4 @@ def dropout(input: Tensor, rate: float, ignore: bool = False) -> Tensor:
     else:
         # use rand to generate random boolean with the shape of input (0-1)
         return input * (rand(input.shape) > rate)
-    raise NotImplementedError("Need to implement for Task 4.4")
+    # raise NotImplementedError("Need to implement for Task 4.4")

@@ -1,13 +1,11 @@
 from typing import Tuple
 
-import numpy as np
+# import numpy as np
 from numba import njit, prange
 
 from .autodiff import Context
 from .tensor import Tensor
-from .tensor_data import (
-    MAX_DIMS,
-    Index,
+from .tensor_data import (  # MAX_DIMS,; Index,
     Shape,
     Strides,
     broadcast_index,
@@ -85,7 +83,9 @@ def _tensor_conv1d(
         for c in prange(out_channels):
             for i in prange(out_width):
                 # out[b, c, i]
-                out_ordinal = b * out_strides[0] + c * out_strides[1] + i * out_strides[2]
+                out_ordinal = (
+                    b * out_strides[0] + c * out_strides[1] + i * out_strides[2]
+                )
                 for c_ in prange(in_channels):
                     start = max(i - kw + 1, 0) if reverse else min(i, width - 1)
                     end = min(i + 1, width) if reverse else min(i + kw, width)
@@ -97,7 +97,7 @@ def _tensor_conv1d(
                         # out_channels_, in_channels_, kw = weight_shape
                         weight_ordinal = c * s2[0] + c_ * s2[1] + (i_ - start) * s2[2]
                         out[out_ordinal] += input[in_ordinal] * weight[weight_ordinal]
-                
+
     # raise NotImplementedError("Need to implement for Task 4.1")
 
 
@@ -229,7 +229,12 @@ def _tensor_conv2d(
             for h in prange(height_):
                 for w in prange(width_):
                     # out[b, c, h, w]
-                    out_ordinal = b * out_strides[0] + c * out_strides[1] + h * out_strides[2] + w * out_strides[3]
+                    out_ordinal = (
+                        b * out_strides[0]
+                        + c * out_strides[1]
+                        + h * out_strides[2]
+                        + w * out_strides[3]
+                    )
                     # find what generate this block
                     for c_ in prange(in_channels):
                         start_h = max(h - kh + 1, 0) if reverse else min(h, height - 1)
@@ -241,8 +246,15 @@ def _tensor_conv2d(
                                 # input[b, c_, h_ , w_]
                                 in_ordinal = b * s10 + c_ * s11 + h_ * s12 + w_ * s13
                                 # weight[c, c_, h_ - start_h, w_ - start_w]
-                                weight_ordinal = c * s20 + c_ * s21 + (h_ - start_h) * s22 + (w_ - start_w) * s23
-                                out[out_ordinal] += input[in_ordinal] * weight[weight_ordinal]
+                                weight_ordinal = (
+                                    c * s20
+                                    + c_ * s21
+                                    + (h_ - start_h) * s22
+                                    + (w_ - start_w) * s23
+                                )
+                                out[out_ordinal] += (
+                                    input[in_ordinal] * weight[weight_ordinal]
+                                )
     # raise NotImplementedError("Need to implement for Task 4.2")
 
 

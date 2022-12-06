@@ -39,7 +39,9 @@ def test_max(t: Tensor) -> None:
     assert out[0, 0, 0] == max([t[0, j, 0] for j in range(J)])
     out = minitorch.nn.max(t, 2)
     assert out[0, 0, 0] == max([t[0, 0, k] for k in range(K)])
-    minitorch.grad_check(lambda x: minitorch.nn.max(x, 2), t + minitorch.rand(t.shape) * 1e-4)
+    minitorch.grad_check(
+        lambda x: minitorch.nn.max(x, 2), t + minitorch.rand(t.shape) * 1e-4
+    )
     # raise NotImplementedError("Need to implement for Task 4.4")
 
 

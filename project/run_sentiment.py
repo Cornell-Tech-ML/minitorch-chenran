@@ -76,12 +76,14 @@ class CNNSentimentKim(minitorch.Module):
         embeddings tensor: [batch x sentence length x embedding dim]
         """
         # TODO: Implement for Task 4.5.
-        embeddings = embeddings.permute(0, 2, 1) # embedding dim, sentence length
+        embeddings = embeddings.permute(0, 2, 1)  # embedding dim, sentence length
         conv1 = self.conv1d1.forward(embeddings).relu()
         conv2 = self.conv1d2.forward(embeddings).relu()
         conv3 = self.conv1d3.forward(embeddings).relu()
         # max-over-time, no sentence length
-        out = minitorch.max(conv1, 2) + minitorch.max(conv2, 2) + minitorch.max(conv3, 2)
+        out = (
+            minitorch.max(conv1, 2) + minitorch.max(conv2, 2) + minitorch.max(conv3, 2)
+        )
         out = self.linear.forward(out).relu()
         out = minitorch.dropout(out, rate=self.dropout, ignore=not self.training)
         return out.sigmoid().view(embeddings.shape[0])
