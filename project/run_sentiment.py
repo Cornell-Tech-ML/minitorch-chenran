@@ -84,8 +84,8 @@ class CNNSentimentKim(minitorch.Module):
         out = (
             minitorch.max(conv1, 2) + minitorch.max(conv2, 2) + minitorch.max(conv3, 2)
         ).view(embeddings.shape[0], self.feature_map_size)
-        out = self.linear.forward(out)
         out = minitorch.dropout(out, rate=self.dropout, ignore=not self.training)
+        out = self.linear.forward(out)
         return out.sigmoid().view(embeddings.shape[0])
         # raise NotImplementedError("Need to implement for Task 4.5")
 
@@ -212,6 +212,8 @@ class SentenceSentimentTrain:
                 validation_predictions,
                 validation_accuracy,
             )
+            if validation_accuracy[-1] > 0.73:
+                break
             total_loss = 0.0
 
 
